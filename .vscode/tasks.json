@@ -1,0 +1,37 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build hc_sr04_tests debug",
+            "type": "shell",
+            "command": "ninja -v",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/test/hc_sr04_tests/out"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "clean hc_sr04_tests",
+            "type": "shell",
+            "command": "ninja -v clean",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/test/hc_sr04_tests/out"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "run hc_sr04_tests",
+            "command": "./hc_sr04_tests",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/test/hc_sr04_tests/out"
+            },
+            "group": "test"
+        }
+    ]
+}
