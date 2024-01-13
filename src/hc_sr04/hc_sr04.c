@@ -11,11 +11,12 @@
 #define TRIG_TIME      10
 #define TIM_CM_DIVIDER 58
 
-void hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardware)
+hc_sr04_status_e_t hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardware)
 {
     if(hc_sr04 == NULL)
     {
-        return;
+        hc_sr04->status = HC_SR04_STATUS_ERROR;
+        return hc_sr04->status;
     }
 
     hc_sr04->hardware = hardware;
@@ -26,6 +27,9 @@ void hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardware)
 
     hc_sr04->echo = ECHO_NOK;
     hc_sr04->state = NON_READY;
+
+    hc_sr04->status = HC_SR04_STATUS_OK;
+    return hc_sr04->status;
 }
 
 distance_cm_t hc_sr04_get_distance(hc_sr04_s_t* hc_sr04)

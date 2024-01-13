@@ -23,6 +23,12 @@ typedef enum
 
 typedef enum
 {
+    HC_SR04_STATUS_OK,
+    HC_SR04_STATUS_ERROR,
+} hc_sr04_status_e_t;
+
+typedef enum
+{
     ECHO_OK,
     ECHO_NOK,
 } hc_sr04_echo_e_t;
