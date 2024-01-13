@@ -6,3 +6,61 @@
  ******************************************************************************/
 
 #include "hc_sr04.h"
+#include <stddef.h>
+
+#define TRIG_TIME      10
+#define TIM_CM_DIVIDER 58
+
+void hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardware)
+{
+    if(hc_sr04 == NULL)
+    {
+        return;
+    }
+
+    hc_sr04->hardware = hardware;
+    hc_sr04->hardware.hc_sr04_hardware_init();
+
+    hc_sr04->last_distance = 0;
+    hc_sr04->trig_time = TRIG_TIME;
+
+    hc_sr04->echo = ECHO_NOK;
+    hc_sr04->state = NON_READY;
+}
+
+distance_cm_t hc_sr04_get_distance(hc_sr04_s_t* hc_sr04)
+{
+    switch(hc_sr04->state)
+    {
+        case NON_READY:
+        {
+            hc_sr04->hardware.hc_sr04_hardware_tim_trig(hc_sr04->trig_time);
+            hc_sr04->state = WAIT_FOR_ECHO;
+        }
+        break;
+        case WAIT_FOR_ECHO:
+        {
+            hc_sr04->echo = hc_sr04->hardware.hc_sr04_hardware_wait_for_echo();
+
+            if(hc_sr04->echo == ECHO_OK)
+            {
+                hc_sr04->state = READY;
+            }
+
+            else if(hc_sr04->echo == ECHO_NOK)
+            {
+                hc_sr04->state = NON_READY;
+                hc_sr04->last_distance = 0;
+            }
+        }
+        break;
+        case READY:
+        {
+            hc_sr04->last_distance = (hc_sr04->hardware.hc_sr04_hardware_tim_echo()) / TIM_CM_DIVIDER;   // Distance in cm = time in us / 58
+            hc_sr04->state = NON_READY;
+        }
+        break;
+    }
+
+    return hc_sr04->last_distance;
+}
