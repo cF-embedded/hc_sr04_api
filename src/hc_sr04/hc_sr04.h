@@ -10,6 +10,8 @@
 #include "hc_sr04_hardware.h"
 #include "hc_sr04_types.h"
 
+#define TIM_CM_DIVIDER 58
+
 typedef struct
 {
     time_us_t trig_time;

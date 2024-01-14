@@ -9,7 +9,6 @@
 #include <stddef.h>
 
 #define TRIG_TIME      10
-#define TIM_CM_DIVIDER 58
 
 hc_sr04_status_e_t hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardware)
 {
