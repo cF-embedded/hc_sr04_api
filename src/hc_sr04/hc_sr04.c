@@ -8,7 +8,7 @@
 #include "hc_sr04.h"
 #include <stddef.h>
 
-#define TRIG_TIME      10
+#define TRIG_TIME 10
 
 hc_sr04_status_e_t hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardware)
 {
@@ -57,7 +57,8 @@ distance_cm_t hc_sr04_get_distance(hc_sr04_s_t* hc_sr04)
         break;
         case MEASURE_COMPLETE:
         {
-            hc_sr04->last_distance = (hc_sr04->hardware.hc_sr04_hardware_tim_echo()) / TIM_CM_DIVIDER;   // Distance in cm = time in us / 58
+            /* distance in cm = time in us / 58 */
+            hc_sr04->last_distance = (hc_sr04->hardware.hc_sr04_hardware_tim_echo()) / TIM_CM_DIVIDER;
             hc_sr04->state = WAIT_FOR_ACTIVE;
         }
         break;
