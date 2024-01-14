@@ -32,3 +32,14 @@ TEST(hc_sr04_tests, status_ok_after_init)
 
     EXPECT_EQ(status, HC_SR04_STATUS_OK);
 }
+
+TEST(hc_sr04_tests, state_wait_for_active_after_init)
+{
+    hc_sr04_s_t hc_sr04;
+    hc_sr04_hardware_s_t hardware_mock;
+    setup_hc_sr04_hardware_with_mocks(&hardware_mock);
+
+    hc_sr04_init(&hc_sr04, hardware_mock);
+
+    EXPECT_EQ(hc_sr04.state, WAIT_FOR_ACTIVE);
+}
