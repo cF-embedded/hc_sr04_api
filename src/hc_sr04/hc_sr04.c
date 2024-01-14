@@ -15,8 +15,7 @@ hc_sr04_status_e_t hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardw
 {
     if(hc_sr04 == NULL)
     {
-        hc_sr04->status = HC_SR04_STATUS_ERROR;
-        return hc_sr04->status;
+        return HC_SR04_STATUS_ERROR;
     }
 
     hc_sr04->hardware = hardware;
@@ -28,8 +27,7 @@ hc_sr04_status_e_t hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardw
     hc_sr04->echo = ECHO_NOK;
     hc_sr04->state = WAIT_FOR_ACTIVE;
 
-    hc_sr04->status = HC_SR04_STATUS_OK;
-    return hc_sr04->status;
+    return HC_SR04_STATUS_OK;
 }
 
 distance_cm_t hc_sr04_get_distance(hc_sr04_s_t* hc_sr04)

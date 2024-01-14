@@ -16,7 +16,6 @@ typedef struct
     distance_cm_t last_distance;
     hc_sr04_echo_e_t echo;
     hc_sr04_state_e_t state;
-    hc_sr04_status_e_t status;
     hc_sr04_hardware_s_t hardware;
 } hc_sr04_s_t;
 
