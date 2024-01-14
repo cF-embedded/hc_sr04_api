@@ -15,10 +15,9 @@ typedef uint16_t time_ms_t;
 
 typedef enum
 {
-    NON_READY,
+    WAIT_FOR_ACTIVE,
     WAIT_FOR_ECHO,
-    READY,
-    ERROR,
+    MEASURE_COMPLETE,
 } hc_sr04_state_e_t;
 
 typedef enum

@@ -26,7 +26,7 @@ hc_sr04_status_e_t hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardw
     hc_sr04->trig_time = TRIG_TIME;
 
     hc_sr04->echo = ECHO_NOK;
-    hc_sr04->state = NON_READY;
+    hc_sr04->state = WAIT_FOR_ACTIVE;
 
     hc_sr04->status = HC_SR04_STATUS_OK;
     return hc_sr04->status;
@@ -36,7 +36,7 @@ distance_cm_t hc_sr04_get_distance(hc_sr04_s_t* hc_sr04)
 {
     switch(hc_sr04->state)
     {
-        case NON_READY:
+        case WAIT_FOR_ACTIVE:
         {
             hc_sr04->hardware.hc_sr04_hardware_tim_trig(hc_sr04->trig_time);
             hc_sr04->state = WAIT_FOR_ECHO;
@@ -48,20 +48,20 @@ distance_cm_t hc_sr04_get_distance(hc_sr04_s_t* hc_sr04)
 
             if(hc_sr04->echo == ECHO_OK)
             {
-                hc_sr04->state = READY;
+                hc_sr04->state = MEASURE_COMPLETE;
             }
 
             else if(hc_sr04->echo == ECHO_NOK)
             {
-                hc_sr04->state = NON_READY;
+                hc_sr04->state = WAIT_FOR_ACTIVE;
                 hc_sr04->last_distance = 0;
             }
         }
         break;
-        case READY:
+        case MEASURE_COMPLETE:
         {
             hc_sr04->last_distance = (hc_sr04->hardware.hc_sr04_hardware_tim_echo()) / TIM_CM_DIVIDER;   // Distance in cm = time in us / 58
-            hc_sr04->state = NON_READY;
+            hc_sr04->state = WAIT_FOR_ACTIVE;
         }
         break;
     }
