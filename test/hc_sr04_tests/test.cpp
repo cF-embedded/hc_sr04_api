@@ -43,3 +43,15 @@ TEST(hc_sr04_tests, state_wait_for_active_after_init)
 
     EXPECT_EQ(hc_sr04.state, WAIT_FOR_ACTIVE);
 }
+
+TEST(hc_sr04_tests, state_wait_for_echo_after_get_distance)
+{
+    hc_sr04_s_t hc_sr04;
+    hc_sr04_hardware_s_t hardware_mock;
+    setup_hc_sr04_hardware_with_mocks(&hardware_mock);
+
+    hc_sr04_init(&hc_sr04, hardware_mock);
+    hc_sr04_get_distance(&hc_sr04);
+
+    EXPECT_EQ(hc_sr04.state, WAIT_FOR_ECHO);
+}
