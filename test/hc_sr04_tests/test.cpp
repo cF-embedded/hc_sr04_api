@@ -98,3 +98,20 @@ TEST(hc_sr04_tests, state_measure_complete_after_echo_nok)
 
     EXPECT_EQ(hc_sr04.state, MEASURE_COMPLETE);
 }
+
+TEST(hc_sr04_tests, get_distance_after_state_measure_complete)
+{
+    hc_sr04_s_t hc_sr04;
+    time_us_t time = 300;
+    hc_sr04_hardware_s_t hardware_mock;
+    setup_hc_sr04_hardware_with_mocks(&hardware_mock);
+
+    hc_sr04_init(&hc_sr04, hardware_mock);
+    hc_sr04_get_distance(&hc_sr04);
+    mock_hc_sr04_hardware_set_wait_for_echo(ECHO_OK);
+    hc_sr04_get_distance(&hc_sr04);
+    mock_hc_sr04_hardware_set_tim_echo(time);
+    distance_cm_t distance = time / 58;
+
+    EXPECT_EQ(distance, hc_sr04_get_distance(&hc_sr04));
+}
