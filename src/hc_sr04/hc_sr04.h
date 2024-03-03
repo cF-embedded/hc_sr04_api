@@ -25,4 +25,6 @@ hc_sr04_status_e_t hc_sr04_init(hc_sr04_s_t*, hc_sr04_hardware_s_t);
 
 distance_cm_t hc_sr04_get_distance(hc_sr04_s_t*);
 
+hc_sr04_state_e_t hc_sr04_get_state_by_echo(hc_sr04_s_t*);
+
 #endif /* __HC_SR04_H */

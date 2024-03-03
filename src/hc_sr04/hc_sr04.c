@@ -29,6 +29,26 @@ hc_sr04_status_e_t hc_sr04_init(hc_sr04_s_t* hc_sr04, hc_sr04_hardware_s_t hardw
     return HC_SR04_STATUS_OK;
 }
 
+hc_sr04_state_e_t hc_sr04_get_state_by_echo(hc_sr04_s_t* hc_sr04)
+{
+    hc_sr04_state_e_t actual_state;
+
+    switch(hc_sr04->echo)
+    {
+        case ECHO_NOK:
+            actual_state = WAIT_FOR_ACTIVE;
+            break;
+        case ECHO_OK:
+            actual_state = MEASURE_COMPLETE;
+            break;
+        case ECHO_WAIT:
+            actual_state = WAIT_FOR_ECHO;
+            break;
+    }
+
+    return actual_state;
+}
+
 distance_cm_t hc_sr04_get_distance(hc_sr04_s_t* hc_sr04)
 {
     switch(hc_sr04->state)
@@ -42,17 +62,10 @@ distance_cm_t hc_sr04_get_distance(hc_sr04_s_t* hc_sr04)
         case WAIT_FOR_ECHO:
         {
             hc_sr04->echo = hc_sr04->hardware.hc_sr04_hardware_wait_for_echo();
+            hc_sr04->state = hc_sr04_get_state_by_echo(hc_sr04);
 
-            if(hc_sr04->echo == ECHO_OK)
-            {
-                hc_sr04->state = MEASURE_COMPLETE;
-            }
-
-            else if(hc_sr04->echo == ECHO_NOK)
-            {
-                hc_sr04->state = WAIT_FOR_ACTIVE;
+            if(hc_sr04->echo == ECHO_NOK)
                 hc_sr04->last_distance = 0;
-            }
         }
         break;
         case MEASURE_COMPLETE:

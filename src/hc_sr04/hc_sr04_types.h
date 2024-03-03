@@ -29,6 +29,7 @@ typedef enum
 typedef enum
 {
     ECHO_OK,
+    ECHO_WAIT,
     ECHO_NOK,
 } hc_sr04_echo_e_t;
 
