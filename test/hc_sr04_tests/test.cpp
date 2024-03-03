@@ -85,7 +85,7 @@ TEST(hc_sr04_tests, last_distance_0_after_echo_nok)
     EXPECT_EQ(distance, 0);
 }
 
-TEST(hc_sr04_tests, state_measure_complete_after_echo_nok)
+TEST(hc_sr04_tests, state_measure_complete_after_echo_ok)
 {
     hc_sr04_s_t hc_sr04;
     hc_sr04_hardware_s_t hardware_mock;
